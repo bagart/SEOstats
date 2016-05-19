@@ -15,9 +15,41 @@ use SEOstats\Common\SEOstatsException as E;
 use SEOstats\SEOstats as SEOstats;
 use SEOstats\Config as Config;
 use SEOstats\Helper as Helper;
+use SEOstats\Services\Google\CSE;
 
 class Google extends SEOstats
 {
+
+    /**
+     * Gets the Google CSE
+     *
+     * @param bool $query
+     * @param array $param
+     * @return string
+     */
+    public static function getCSECount($query = false, array $param = [])
+    {
+        $query = preg_replace('~https?://~iu', '', $query);//for identical link
+        $result = CSE::getResultCount($query, $param);
+
+        return $result ?: static::noDataDefaultValue();
+    }
+
+    /**
+     * Gets the Google CSE
+     * 
+     * @param bool $query
+     * @param array $param
+     * @return string
+     */ 
+    public static function getCSE($query = false, array $param = [])
+    {
+        $query = preg_replace('~https?://~iu', '', $query);//for identical link
+        $result = CSE::getResult($query, $param);
+
+        return $result ?: static::noDataDefaultValue();
+    }
+
     /**
      *  Gets the Google Pagerank
      *

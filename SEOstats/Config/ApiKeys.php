@@ -24,6 +24,12 @@ interface ApiKeys
     // in the section titled "Simple API Access.".
     const GOOGLE_SIMPLE_API_ACCESS_KEY = '';
 
+    const GOOGLE_CSE_API_ACCESS_KEY = '';
+
+    //make it at:https://cse.google.com/cse/all
+    //second test it: https://developers.google.com/apis-explorer/?hl=ru#p/customsearch/v1/search.cse.list?q=news
+    const GOOGLE_CSE_API_CX_DEFAULT = '';
+
     // To acquire a Mozscape (f.k.a. SEOmoz) API key, visit:
     //      https://moz.com/products/api/keys
     const MOZSCAPE_ACCESS_ID  = '';
