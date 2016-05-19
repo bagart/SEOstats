@@ -4,6 +4,7 @@ namespace SEOstats\Services;
 /**
  * SEOstats extension for SEMRush data.
  *
+ * @todo not work (js charts?)
  * @package    SEOstats
  * @author     Stephan Schmitz <eyecatchup@gmail.com>
  * @copyright  Copyright (c) 2010 - present Stephan Schmitz

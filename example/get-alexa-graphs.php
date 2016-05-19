@@ -22,12 +22,12 @@
 
 // Bootstrap the library / register autoloader
 #require_once realpath(__DIR__ . '/SEOstats/bootstrap.php');
-require_once realpath(__DIR__ . '/vendor/autoload.php');
+require_once realpath(__DIR__ . '/../vendor/autoload.php');
 
 use \SEOstats\Services\Alexa as Alexa;
 
 try {
-    $url = 'http://www.nahklick.de/';
+    $url = isset($argv[1]) ? $argv[1] : 'http://facebook.com/';
 
     // Create a new SEOstats instance.
     $seostats = new \SEOstats\SEOstats;

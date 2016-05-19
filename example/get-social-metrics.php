@@ -22,12 +22,12 @@
 
 // Bootstrap the library / register autoloader
 #require_once realpath(__DIR__ . '/SEOstats/bootstrap.php');
-require_once realpath(__DIR__ . '/vendor/autoload.php');
+require_once realpath(__DIR__ . '/../vendor/autoload.php');
 
 use \SEOstats\Services\Social as Social;
 
 try {
-    $url = 'http://www.google.com/';
+    $url = isset($argv[1]) ? $argv[1] : 'http://facebook.com/';
 
     // Create a new SEOstats instance.
     $seostats = new \SEOstats\SEOstats;

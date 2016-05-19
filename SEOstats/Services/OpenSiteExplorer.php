@@ -3,6 +3,7 @@ namespace SEOstats\Services;
 
 /**
  * SEOstats extension for SEOmoz' OpenSiteExplorer data.
+ * @deprecated redirect to moz.com
  *
  * @package    SEOstats
  * @author     Stephan Schmitz <eyecatchup@gmail.com>

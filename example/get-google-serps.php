@@ -22,7 +22,7 @@
 
 // Bootstrap the library / register autoloader
 #require_once realpath(__DIR__ . '/SEOstats/bootstrap.php');
-require_once realpath(__DIR__ . '/vendor/autoload.php');
+require_once realpath(__DIR__ . '/../vendor/autoload.php');
 
 use \SEOstats\Services\Google as Google;
 
@@ -31,7 +31,12 @@ try {
      *  Get an array containing URL and title for the first
      *  100 results for a Google web search for 'keyword'.
      */
-    $serps = Google::getSerps('keyword');
+    $query = isset($argv[1]) 
+        ? implode(' ', array_slice($argv,1)) 
+        : 'news';
+
+    $serps = Google::getSerps($query);
+
     print_r($serps);
 
     /**

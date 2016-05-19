@@ -1,7 +1,8 @@
 <?php
 /**
  * SEOstats Example - Get SEMrush Metrics as Graphs
- *
+ * @todo not work (js charts?)
+ * 
  * @package    SEOstats
  * @author     Stephan Schmitz <eyecatchup@gmail.com>
  * @copyright  Copyright (c) 2010 - present Stephan Schmitz
@@ -22,12 +23,12 @@
 
 // Bootstrap the library / register autoloader
 #require_once realpath(__DIR__ . '/SEOstats/bootstrap.php');
-require_once realpath(__DIR__ . '/vendor/autoload.php');
+require_once realpath(__DIR__ . '/../vendor/autoload.php');
 
 use \SEOstats\Services\SemRush;
 
 try {
-    $url = 'http://www.google.de/';
+    $url = isset($argv[1]) ? $argv[1] : 'http://facebook.com/';
 
     // Create a new SEOstats instance.
     $seostats = new \SEOstats\SEOstats;

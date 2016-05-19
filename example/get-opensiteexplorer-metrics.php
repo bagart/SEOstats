@@ -1,7 +1,8 @@
 <?php
 /**
  * SEOstats Example - Get Open-Site-Explorer (by MOZ) Metrics
- *
+ * @deprecated ? redirect to moz.com, https not work
+ * 
  * @package    SEOstats
  * @author     Stephan Schmitz <eyecatchup@gmail.com>
  * @copyright  Copyright (c) 2010 - present Stephan Schmitz
@@ -22,13 +23,17 @@
 
 // Bootstrap the library / register autoloader
 #require_once realpath(__DIR__ . '/SEOstats/bootstrap.php');
-require_once realpath(__DIR__ . '/vendor/autoload.php');
+require_once realpath(__DIR__ . '/../vendor/autoload.php');
 
 try {
-    $url = 'http://www.nahklick.de/';
+    $url = isset($argv[1]) ? $argv[1] : 'http://facebook.com/';
 
     // Get Open-Site-Explorer metrics for the given URL.
     $ose = \SEOstats\Services\OpenSiteExplorer::getPageMetrics($url);
+    if ($ose === \SEOstats\Config\DefaultSettings::DEFAULT_RETURN_NO_DATA) {
+        echo "Open-Site-Explorer metrics for " . $url ." not available". PHP_EOL;
+        return;
+    }
 
     echo "Open-Site-Explorer metrics for " . $url . PHP_EOL;
 

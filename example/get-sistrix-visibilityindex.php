@@ -22,10 +22,10 @@
 
 // Bootstrap the library / register autoloader
 #require_once realpath(__DIR__ . '/SEOstats/bootstrap.php');
-require_once realpath(__DIR__ . '/vendor/autoload.php');
+require_once realpath(__DIR__ . '/../vendor/autoload.php');
 
 try {
-    $url = 'http://www.spiegel.de/';
+    $url = isset($argv[1]) ? $argv[1] : 'http://facebook.com/';
 
     // Get the Sistrix Visibility-Index for the given URL.
     $vi = \SEOstats\Services\Sistrix::getVisibilityIndex($url);
