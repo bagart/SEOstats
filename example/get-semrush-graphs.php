@@ -11,7 +11,7 @@
  */
 
 // NOTE: The given path to the autoload.php assumes that you installed SEOstats via composer 
-// and copied this example file from ./vendor/seostats/seostats/example/example.php to ./example.php
+// and copied this example file from ./vendor/seostats/seostats/example/*.php to ./example/*.php
 //
 // If you did NOT installed SEOstats via composer but instead downloaded the zip file from github.com, 
 // you need to follow this steps:
