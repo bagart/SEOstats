@@ -1,12 +1,11 @@
 <?php
 /**
- * SEOstats Example - Get Google PageRank
+ * SEOstats Example - Get Google Custom Search Engine (CSE) API
  * @deprecated 
  * @package    SEOstats
- * @author     Stephan Schmitz <eyecatchup@gmail.com>
- * @copyright  Copyright (c) 2010 - present Stephan Schmitz
+ * @author     Baltaev Artur <bagart@list.ru>
  * @license    http://eyecatchup.mit-license.org/  MIT License
- * @updated    2013/12/04
+ * @updated    2016/05/20
  */
 
 // NOTE: The given path to the autoload.php assumes that you installed SEOstats via composer 
