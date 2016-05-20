@@ -12,28 +12,31 @@ namespace SEOstats\Services\Google;
  */
 
 use SEOstats\Common\SEOstatsException as E;
+use SEOstats\Common\SEOstatsException;
 use SEOstats\SEOstats as SEOstats;
 use SEOstats\Config as Config;
 use SEOstats\Helper as Helper;
 
 class CSE extends SEOstats
 {
-    //const GOOGLE_CSE_URL = 'https://www.googleapis.com/customsearch/v1?';
-    const GOOGLE_CSE_URL = 'https://www.googleapis.com/customsearch/v1element?';
+    //const GOOGLE_CSE_URL = 'https://www.googleapis.com/customsearch/v1element?';//browser
+    const GOOGLE_CSE_URL = 'https://www.googleapis.com/customsearch/v1?';
     public static function getAuthParams()
     {
         return [
             'cx' => Config\ApiKeys::GOOGLE_CSE_API_CX_DEFAULT,
-            'key' => Config\ApiKeys::GOOGLE_CSE_API_ACCESS_KEY
+            'key' => Config\ApiKeys::GOOGLE_CSE_API_SERVER_ACCESS_KEY
         ];
     }
 
     public static function getResultCount($query, array $params = [])
     {
-        return str_replace(
-            ',', 
-            '', 
-            static::getResult($query, $params)['cursor']['resultCount']
+        $result = static::getResult($query, $params);
+        if (isset($result['searchInformation']['totalResults'])) {
+            return $result['searchInformation']['totalResults'];
+        }
+        throw new E(
+            "Google CSE: error with response query: {$query}. result :" . var_export($result, true)
         );
     }
     
@@ -47,22 +50,32 @@ class CSE extends SEOstats
         $url = static::GOOGLE_CSE_URL . $request;
         $result = null;
         try {
-            $result = file_get_contents($url);
+            $context = stream_context_create(array(
+                'http' => array('ignore_errors' => true),
+            ));
+
+            $result = file_get_contents($url, false, $context);
             if ($result) {
                 $result = json_decode($result, true);
             }
         } catch (\Exception $e) {
             throw new E(
-                "error {$e->getMessage()} with url: {$url} at {$e->getTraceAsString()}"
+                "Google CSE: technical error {$e->getMessage()} with url: {$url} at {$e->getTraceAsString()}. result :{$result}"
             );
         }
 
         if (!$result) {
             throw new E(
-                "error while url: {$url}"
+                "Google CSE: empty result with url: {$url}"
             );
         }
-        
+
+        if (!empty($result['error'])) {
+            throw new E(
+                "Google CSE: API error with url: {$url}. result :" . var_export($result, true)
+            );
+        }
+
         return $result;
     }
 }

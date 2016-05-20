@@ -24,7 +24,9 @@ interface ApiKeys
     // in the section titled "Simple API Access.".
     const GOOGLE_SIMPLE_API_ACCESS_KEY = '';
 
-    const GOOGLE_CSE_API_ACCESS_KEY = '';
+    // 1st - API KEY => SERVER KEY https://console.developers.google.com/apis/credentials
+    // 2nd - ENABLE Custom Search API https://console.developers.google.com/apis/api/customsearch/overview
+    const GOOGLE_CSE_API_SERVER_ACCESS_KEY = '';
 
     //make it at:https://cse.google.com/cse/all
     //test it with custom params: https://developers.google.com/apis-explorer/?hl=ru#p/customsearch/v1/search.cse.list?q=news
