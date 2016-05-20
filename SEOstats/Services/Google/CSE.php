@@ -51,11 +51,15 @@ class CSE extends SEOstats
             if ($result) {
                 $result = json_decode($result, true);
             }
-        } catch (\Exception $e) { }
+        } catch (\Exception $e) {
+            throw new E(
+                "error {$e->getMessage()} with url: {$url} at {$e->getTraceAsString()}"
+            );
+        }
+
         if (!$result) {
             throw new E(
-                "error while request: {$e->getMessage()} "
-                . "with url: {$url} at {$e->getTraceAsString()}"
+                "error while url: {$url}"
             );
         }
         
