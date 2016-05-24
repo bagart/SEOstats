@@ -35,7 +35,8 @@ interface ApiKeys
     //make it: https://xml.yandex.ru/settings/
     //limits:   default 10 request/day
     //          after confirm phone number - 10 request/day
-    const YANDEX_XML_SEARCH_KEY = '03.1130000019469110:712e182bd939014ab1217c5305206394';
+    const YANDEX_XML_SEARCH_KEY = '';
+    const YANDEX_XML_SEARCH_USER = '';
 
     // To acquire a Mozscape (f.k.a. SEOmoz) API key, visit:
     //      https://moz.com/products/api/keys

@@ -32,12 +32,13 @@ class CSE extends SEOstats
     public static function getResultCount($query, array $params = [])
     {
         $result = static::getResult($query, $params);
-        if (isset($result['searchInformation']['totalResults'])) {
-            return $result['searchInformation']['totalResults'];
+        if (!isset($result['searchInformation']['totalResults'])) {
+            throw new E(
+                "Google CSE: error with response query: {$query}. result :" . var_export($result, true)
+            );
         }
-        throw new E(
-            "Google CSE: error with response query: {$query}. result :" . var_export($result, true)
-        );
+        
+        return $result['searchInformation']['totalResults'];
     }
     
     public static function getResult($query, array $params = [])
