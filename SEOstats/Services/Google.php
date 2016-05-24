@@ -19,47 +19,53 @@ use SEOstats\Services\Google\CSE;
 
 class Google extends SEOstats
 {
-
     /**
-     * Gets the Google CSE
+     * Gets the Google search count
      *
      * @param bool $query
      * @param array $param
      * @return string
      */
-    public static function getCSECount($query = false, array $param = [])
+    public static function getSearchCount($query, array $param = [])
     {
-        $query = preg_replace('~https?://~iu', '', $query);//for identical link
-        $result = CSE::getResultCount($query, $param);
-
-        return $result ?: static::noDataDefaultValue();
+        return CSE::getResultCount($query, $param);
     }
 
     /**
-     * Gets the Google CSE
+     * Gets the Google search result
      * 
      * @param bool $query
      * @param array $param
      * @return string
      */ 
-    public static function getCSE($query = false, array $param = [])
+    public static function getSearch($query, array $param = [])
     {
-        $query = preg_replace('~https?://~iu', '', $query);//for identical link
-        $result = CSE::getResult($query, $param);
+        return CSE::getResult($query, $param);
+    }
 
-        return $result ?: static::noDataDefaultValue();
+    public static function getSiteIndexTotal($url = false)
+    {
+        return self::getSearchCount('site:' . static::getPreparedUrl($url));
+    }
+
+    public static function getBacklinksTotal($url = false)
+    {
+        return self::getSearchCount('link:' . static::getPreparedUrl($url));
+    }
+
+    public static function getSiteImageIndexTotal($url = false)
+    {
+        return self::getSearchCount('site:' . static::getPreparedUrl($url, ['searchtype'=>'image']));
     }
 
     /**
      *  Gets the Google Pagerank
-     *
+     *  @deprecated 
      *  @param    string    $url    String, containing the query URL.
      *  @return   integer           Returns the Google PageRank.
      */
     public static function getPageRank($url = false)
     {
-        // Composer autoloads classes out of the SEOstats namespace.
-        // The custom autolader, however, does not. So we need to include it first.
         if(!class_exists('\GTB_PageRank')) {
             require_once realpath(__DIR__ . '/3rdparty/GTB_PageRank.php');
         }
@@ -68,34 +74,6 @@ class Google extends SEOstats
         $result = $gtb->getPageRank();
 
         return $result != "" ? $result : static::noDataDefaultValue();
-    }
-
-    /**
-     *  Returns the total amount of results for a Google 'site:'-search for the object URL.
-     *
-     *  @param    string    $url    String, containing the query URL.
-     *  @return   integer           Returns the total site-search result count.
-     */
-    public static function getSiteindexTotal($url = false)
-    {
-        $url   = parent::getUrl($url);
-        $query = urlencode("site:{$url}");
-
-        return self::getSearchResultsTotal($query);
-    }
-
-    /**
-     *  Returns the total amount of results for a Google 'link:'-search for the object URL.
-     *
-     *  @param    string    $url    String, containing the query URL.
-     *  @return   integer           Returns the total link-search result count.
-     */
-    public static function getBacklinksTotal($url = false)
-    {
-        $url   = parent::getUrl($url);
-        $query = urlencode("link:{$url}");
-
-        return self::getSearchResultsTotal($query);
     }
 
     /**
@@ -156,7 +134,7 @@ class Google extends SEOstats
      * @param     string    $tld    String, containing the desired Google top level domain.
      * @return    array             Returns array, containing the keys 'URL', 'Title' and 'Description'.
      */
-    public static function getSerps($query, $maxResults=100, $domain=false)
+    public static function getSerps($query, $maxResults = 100, $domain = false)
     {
         return Google\Search::getSerps($query, $maxResults, $domain);
     }

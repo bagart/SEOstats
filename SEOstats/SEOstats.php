@@ -217,4 +217,15 @@ class SEOstats
     {
         return Config\DefaultSettings::DEFAULT_RETURN_NO_DATA;
     }
+
+
+    public static function getPreparedUrl($url = false)
+    {
+        $url = static::getUrl($url);
+        if (!preg_match('~^(?:https?://)?([^/])+~iu', $url, $m)) {
+            throw new E('wrong url: '.$url);
+        }
+
+        return $m[1];
+    }
 }
