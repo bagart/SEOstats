@@ -1,12 +1,11 @@
 <?php
 namespace SEOstats\Services\Yandex;
-
 /**
  * Yandex XML Search API
  * It's limited at 10-10k req/day
  * All parametrs: https://xml.yandex.ru/test/
  * @package    SEOstats
- * @author     Stephan Schmitz <bagart@list.ru>
+ * @author     Baltaev Artur <bagart@list.ru>
  * @license    http://eyecatchup.mit-license.org/  MIT License
  * @updated    2016/05/25
  */

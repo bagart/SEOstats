@@ -18,7 +18,6 @@ use SEOstats\Helper as Helper;
 
 class Search extends SEOstats
 {
-
     /**
      * Returns array, containing detailed results for any Google search.
      *

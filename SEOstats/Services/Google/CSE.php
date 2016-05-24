@@ -6,7 +6,7 @@ namespace SEOstats\Services\Google;
  * It's paid after 100 req/day
  * All parametrs: https://developers.google.com/apis-explorer/?hl=ru#p/customsearch/v1/search.cse.list
  * @package    SEOstats
- * @author     Stephan Schmitz <bagart@list.ru>
+ * @author     Baltaev Artur <bagart@list.ru>
  * @license    http://eyecatchup.mit-license.org/  MIT License
  * @updated    2016/05/20
  */
