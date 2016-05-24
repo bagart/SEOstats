@@ -32,6 +32,11 @@ interface ApiKeys
     //test it with custom params: https://developers.google.com/apis-explorer/?hl=ru#p/customsearch/v1/search.cse.list?q=news
     const GOOGLE_CSE_API_CX_DEFAULT = '';
 
+    //make it: https://xml.yandex.ru/settings/
+    //limits:   default 10 request/day
+    //          after confirm phone number - 10 request/day
+    const YANDEX_XML_SEARCH_KEY = '03.1130000019469110:712e182bd939014ab1217c5305206394';
+
     // To acquire a Mozscape (f.k.a. SEOmoz) API key, visit:
     //      https://moz.com/products/api/keys
     const MOZSCAPE_ACCESS_ID  = '';
@@ -40,4 +45,6 @@ interface ApiKeys
     // To acquire a SISTRIX API key, visit:
     //      http://www.sistrix.de
     const SISTRIX_API_ACCESS_KEY = '';
+
+    const HTTP_USER_AGENT = 'github.com/bagart/SEOstats';
 }

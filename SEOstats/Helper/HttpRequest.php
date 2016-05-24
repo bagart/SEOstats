@@ -1,6 +1,9 @@
 <?php
 namespace SEOstats\Helper;
 
+use SEOstats\Common\SEOstatsException;
+use SEOstats\Config\ApiKeys;
+
 /**
  * HTTP Request Helper Class
  *
@@ -13,23 +16,22 @@ namespace SEOstats\Helper;
 
 class HttpRequest
 {
+    static $HTTP_USER_AGENT = ApiKeys::HTTP_USER_AGENT;
+
     /**
      *  HTTP GET/POST request with curl.
      *  @access    public
      *  @param     String      $url        The Request URL
-     *  @param     Array       $postData   Optional: POST data array to be send.
+     *  @param     Array|false $postData   Optional: POST data array to be send.
      *  @return    Mixed                   On success, returns the response string.
      *                                     Else, the the HTTP status code received
      *                                     in reponse to the request.
      */
     public static function sendRequest($url, $postData = false, $postJson = false)
     {
-        $ua = sprintf('SEOstats %s https://github.com/eyecatchup/SEOstats',
-                \SEOstats\SEOstats::BUILD_NO);
-
         $ch = curl_init($url);
         curl_setopt_array($ch, array(
-            CURLOPT_USERAGENT       => $ua,
+            CURLOPT_USERAGENT       => static::$HTTP_USER_AGENT,
             CURLOPT_RETURNTRANSFER  => 1,
             CURLOPT_CONNECTTIMEOUT  => 30,
             CURLOPT_FOLLOWLOCATION  => 1,
@@ -50,28 +52,44 @@ class HttpRequest
         }
 
         $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         curl_close($ch);
 
-        return (200 == (int)$httpCode) ? $response : false;
+        if (preg_match('~json~ui', $type)) {
+            $response1 = json_decode($response, true);
+            if (!$response1) {
+                throw new SEOstatsException(
+                    "error result type is not JSON: {$url}\n\tresponse: {$response}"
+                );
+            }
+            $response = $response1;
+            unset($response1);
+        }
+
+        if (200 != $code) {
+            throw new SEOstatsException(
+                "error request: {$url}\n response:" . var_export($response, true)
+            );
+        }
+
+        return $response;
     }
 
     /**
      * HTTP HEAD request with curl.
      *
      * @access        private
-     * @param         String        $a        The request URL
+     * @param         String        $url      The request URL
      * @return        Integer                 Returns the HTTP status code received in
      *                                        response to a GET request of the input URL.
      */
     public static function getHttpCode($url)
     {
-        $ua = sprintf('SEOstats %s https://github.com/eyecatchup/SEOstats',
-                \SEOstats\SEOstats::BUILD_NO);
-
         $ch = curl_init($url);
+
         curl_setopt_array($ch, array(
-            CURLOPT_USERAGENT       => $ua,
+            CURLOPT_USERAGENT       => static::$HTTP_USER_AGENT,
             CURLOPT_RETURNTRANSFER  => 1,
             CURLOPT_CONNECTTIMEOUT  => 10,
             CURLOPT_FOLLOWLOCATION  => 1,
@@ -89,14 +107,12 @@ class HttpRequest
 
     public function getFile($url, $file)
     {
-        $ua = sprintf('SEOstats %s https://github.com/eyecatchup/SEOstats',
-                \SEOstats\SEOstats::BUILD_NO);
-
-        $fp = fopen("$file", 'w');
+        $fp = fopen($file, 'w');
 
         $ch = curl_init($url);
+        
         curl_setopt_array($ch, array(
-            CURLOPT_USERAGENT       => $ua,
+            CURLOPT_USERAGENT       => static::$HTTP_USER_AGENT,
             CURLOPT_RETURNTRANSFER  => 1,
             CURLOPT_CONNECTTIMEOUT  => 30,
             CURLOPT_FOLLOWLOCATION  => 1,
@@ -106,8 +122,15 @@ class HttpRequest
         ));
 
         curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         fclose($fp);
+        
+        if (200 != $code) {
+            throw new SEOstatsException(
+                "error code {$code} while get file: {$url}\n\tlocal file:{$file}"
+            );
+        }
 
         clearstatcache();
         return (bool)(false !== stat($file));

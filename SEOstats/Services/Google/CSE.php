@@ -48,31 +48,10 @@ class CSE extends SEOstats
             $request .= rawurlencode($name) . '=' . rawurlencode($value) . '&';
         }
         $url = static::GOOGLE_CSE_URL . $request;
-        $result = null;
-        try {
-            $context = stream_context_create(array(
-                'http' => array('ignore_errors' => true),
-            ));
-
-            $result = file_get_contents($url, false, $context);
-            if ($result) {
-                $result = json_decode($result, true);
-            }
-        } catch (\Exception $e) {
-            throw new E(
-                "Google CSE: technical error {$e->getMessage()} with url: {$url} at {$e->getTraceAsString()}. result :{$result}"
-            );
-        }
-
+        $result = Helper\HttpRequest::sendRequest($url);
         if (!$result) {
             throw new E(
                 "Google CSE: empty result with url: {$url}"
-            );
-        }
-
-        if (!empty($result['error'])) {
-            throw new E(
-                "Google CSE: API error with url: {$url}. result :" . var_export($result, true)
             );
         }
 

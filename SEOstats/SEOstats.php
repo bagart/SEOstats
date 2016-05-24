@@ -157,7 +157,6 @@ class SEOstats
         }
         else {
             throw new E('Invalid URL!');
-            exit();
         }
         return true;
     }
