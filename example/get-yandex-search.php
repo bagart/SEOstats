@@ -14,8 +14,8 @@ try {
     $url = isset($argv[1]) ? $argv[1] : 'facebook.com';
 
     // Get the Google PageRank for the given URL.
-    $index_count_page = \SEOstats\Services\Yandex\SearchXML::getResultCount('site:' . $url);
-    //$index_count_images = \SEOstats\Services\Yandex\SearchXML::getResultCount('site:' . $url, ['searchtype'=>'image']);
+    $index_count_page = \SEOstats\Services\Yandex::getSiteIndexTotal($url);
+    //$index_count_images = \SEOstats\Services\Yandex::getSiteImageIndexTotal('site:' . $url, ['mime'=>'image']);
     
     echo "The current Yandex index count of $url is $index_count_page page" . PHP_EOL;// + $index_count_images images.
 }

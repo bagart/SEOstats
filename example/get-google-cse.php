@@ -13,9 +13,8 @@ require_once realpath(__DIR__ . '/../vendor/autoload.php');
 try {
     $url = isset($argv[1]) ? $argv[1] : 'facebook.com';
 
-    // Get the Google PageRank for the given URL.
-    $index_count_page = \SEOstats\Services\Google::getCSECount('site:' . $url);
-    $index_count_images = \SEOstats\Services\Google::getCSECount('site:' . $url, ['searchtype'=>'image']);
+    $index_count_page = \SEOstats\Services\Google::getSiteIndexTotal($url);
+    $index_count_images = \SEOstats\Services\Google::getSiteImageIndexTotal($url);
     
     echo "The current Google index count of $url is $index_count_page page + $index_count_images images." . PHP_EOL;
 }
