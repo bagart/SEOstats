@@ -222,7 +222,7 @@ class SEOstats
     public static function getPreparedUrl($url = false)
     {
         $url = static::getUrl($url);
-        if (!preg_match('~^(?:https?://)?([^/])+~iu', $url, $m)) {
+        if (!preg_match('~^(?:(?:https?:)?//)?([^/]+)+~iu', $url, $m)) {
             throw new E('wrong url: '.$url);
         }
 
